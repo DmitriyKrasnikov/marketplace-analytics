@@ -3,12 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.4</version>
-        <relativePath/>
+        <groupId>com.krasnikov</groupId>
+        <artifactId>marketplace-analytics</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.krasnikov</groupId>
+
     <artifactId>api-services</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>api-services</name>
@@ -35,17 +34,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
@@ -93,7 +81,7 @@
                             <goal>schema</goal>
                         </goals>
                         <configuration>
-                            <sourceDirectory>${project.basedir}/src/main/avro</sourceDirectory>
+                            <sourceDirectory>${project.basedir}/src/main/java/com/krasnikov/apiservices/model/avro</sourceDirectory>
                             <outputDirectory>${project.build.directory}/generated-sources/avro</outputDirectory>
                             <stringType>String</stringType>
                         </configuration>
