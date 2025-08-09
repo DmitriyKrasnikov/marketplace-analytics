@@ -129,6 +129,29 @@ services:
       KAFKA_SSL_TRUSTSTORE_FILENAME: "kafka-3.truststore.jks"
       KAFKA_SSL_TRUSTSTORE_CREDENTIALS: "kafka-3_truststore_creds"
 
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    hostname: kafka-ui
+    ports:
+      - "8082:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: "Main-Cluster"
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-1:9093
+      KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL: SASL_SSL
+      KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM: PLAIN
+      KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG: >
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username="user" password="user-secret";
+      KAFKA_CLUSTERS_0_PROPERTIES_SSL_TRUSTSTORE_LOCATION: /truststore/kafka-1.truststore.jks
+      KAFKA_CLUSTERS_0_PROPERTIES_SSL_TRUSTSTORE_PASSWORD: your-password
+      KAFKA_CLUSTERS_0_PROPERTIES_SSL_TRUSTSTORE_TYPE: JKS
+      KAFKA_CLUSTERS_0_PROPERTIES_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: ""
+    volumes:
+      - ./sasl-ssl-properties/kafka-creds/kafka-1/certs:/truststore
+    networks:
+      - confluent
+
 volumes:
   data-zookeeper-log-1:
   data-zookeeper-data-1:
