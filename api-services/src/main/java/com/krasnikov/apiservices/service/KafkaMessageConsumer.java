@@ -6,7 +6,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
 public class KafkaMessageConsumer {
 
     @KafkaListener(topics = "topic-1", groupId = "spring-security-consumer")

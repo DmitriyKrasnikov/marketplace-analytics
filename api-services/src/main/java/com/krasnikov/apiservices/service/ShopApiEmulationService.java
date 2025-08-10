@@ -2,7 +2,7 @@ package com.krasnikov.apiservices.service;
 
 import com.krasnikov.apiservices.model.product.Product;
 import com.krasnikov.apiservices.service.file.ProductFileReader;
-import com.krasnikov.apiservices.service.kafka.ShopApiEmulationProducer;
+import com.krasnikov.apiservices.service.kafka.ProductProducer;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +16,9 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ProductKafkaService {
+public class ShopApiEmulationService {
     private final ProductFileReader fileReader;
-    private final ShopApiEmulationProducer producer;
+    private final ProductProducer producer;
 
     @Value("${product.initialization.file:data/products.json}")
     private String initializationFile;
@@ -49,7 +49,6 @@ public class ProductKafkaService {
         List<Product> products = fileReader.readProducts(filePath);
         log.info("Loaded {} products from file", products.size());
 
-        // Просто отправляем продукты - продюсер сам залогирует результат
         products.forEach(producer::sendProduct);
 
         log.info("Initiated sending of {} products to Kafka", products.size());
