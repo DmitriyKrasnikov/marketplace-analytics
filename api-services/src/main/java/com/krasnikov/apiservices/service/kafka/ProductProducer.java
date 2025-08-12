@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 public class ProductProducer {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     public CompletableFuture<SendResult<String, String>> sendProduct(Product product) {
         String productId = product.getProductId();
