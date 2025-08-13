@@ -152,12 +152,28 @@ services:
     networks:
       - confluent
 
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - confluent
+
 volumes:
   data-zookeeper-log-1:
   data-zookeeper-data-1:
   data-kafka-1:
   data-kafka-2:
   data-kafka-3:
+  postgres_data:
 
 networks:
   confluent:

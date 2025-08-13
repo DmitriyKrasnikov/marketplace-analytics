@@ -2,7 +2,7 @@ package com.krasnikov.apiservices.service.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.krasnikov.apiservices.model.product.Product;
+import com.krasnikov.apiservices.model.product.ProductAvroEventExample;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -19,7 +19,7 @@ public class ProductProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    public CompletableFuture<SendResult<String, String>> sendProduct(Product product) {
+    public CompletableFuture<SendResult<String, String>> sendProduct(ProductAvroEventExample product) {
         String productId = product.getProductId();
         String topic = "products";
 
@@ -34,7 +34,7 @@ public class ProductProducer {
 
             future.whenComplete((result, ex) -> {
                 if (ex == null) {
-                    log.info("Product sent successfully [id: {}, offset: {}, partition: {}]",
+                    log.info("ProductAvroEventExample sent successfully [id: {}, offset: {}, partition: {}]",
                             productId,
                             result.getRecordMetadata().offset(),
                             result.getRecordMetadata().partition());
