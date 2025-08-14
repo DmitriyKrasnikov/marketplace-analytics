@@ -11,4 +11,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, String> 
     List<ProductEntity> findByName(String name);
 
     List<ProductEntity> findByNameContainingIgnoreCase(String namePart);
+
+    List<ProductEntity> findTop5ByOrderByCreatedAtDesc();
 }

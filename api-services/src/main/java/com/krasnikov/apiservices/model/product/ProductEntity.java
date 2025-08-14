@@ -22,7 +22,7 @@ import java.util.Map;
 public class ProductEntity {
 
     @Id
-    @Column(name = "product_id", length = 255)
+    @Column(name = "product_id")
     private String productId;
 
     @Column(length = 1000)  // Явное указание длины для названия
@@ -105,8 +105,6 @@ public class ProductEntity {
     public static class Image {
         @Column(length = 2048)  // Длинные URL
         private String url;
-
-        @Column(length = 255)  // Оптимальная длина для alt-текста
         private String alt;
     }
 }

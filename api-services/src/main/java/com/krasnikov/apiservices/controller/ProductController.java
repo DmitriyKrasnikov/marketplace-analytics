@@ -4,10 +4,7 @@ import com.krasnikov.apiservices.model.product.ProductEntity;
 import com.krasnikov.apiservices.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,14 +17,18 @@ public class ProductController {
 
     @GetMapping("/search")
     public ResponseEntity<List<ProductEntity>> searchProducts(
-            @RequestParam("name") String name
-    ) {
-        List<ProductEntity> products = productService.searchProductsByName(name);
+            @RequestParam("name") String name,
+            @RequestHeader("X-User-Id") String userId) {
 
-        if (products.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-
+        List<ProductEntity> products = productService.searchProductsByName(name, userId);
         return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/recommendations")
+    public ResponseEntity<List<ProductEntity>> getRecommendations(
+            @RequestHeader("X-User-Id") String userId) {
+
+        List<ProductEntity> recommendations = productService.getPersonalizedRecommendations(userId);
+        return ResponseEntity.ok(recommendations);
     }
 }
