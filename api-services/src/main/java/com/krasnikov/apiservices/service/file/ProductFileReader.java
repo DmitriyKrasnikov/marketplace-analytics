@@ -1,7 +1,7 @@
 package com.krasnikov.apiservices.service.file;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.krasnikov.apiservices.model.product.ProductAvroEventExample;
+import com.krasnikov.apiservices.model.product.ProductEvent;
 import com.krasnikov.apiservices.service.parser.ProductParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 public class ProductFileReader {
     private final ProductParser parser;
 
-    public List<ProductAvroEventExample> readProducts(Path filePath) {
+    public List<ProductEvent> readProducts(Path filePath) {
         try {
             String content = Files.readString(filePath).trim();
             if (content.isEmpty()) {

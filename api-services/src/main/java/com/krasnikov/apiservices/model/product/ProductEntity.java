@@ -82,8 +82,6 @@ public class ProductEntity {
     @Builder
     public static class Price {
         private Double amount;
-
-        @Column(length = 3)  // Фиксированная длина для валюты (USD, RUB и т.д.)
         private String currency;
     }
 
@@ -103,7 +101,6 @@ public class ProductEntity {
     @AllArgsConstructor
     @Builder
     public static class Image {
-        @Column(length = 2048)  // Длинные URL
         private String url;
         private String alt;
     }

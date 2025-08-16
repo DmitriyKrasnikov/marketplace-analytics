@@ -15,16 +15,20 @@ spring:
       ssl.keystore.password: your-password
       ssl.key.password: your-password
       ssl.endpoint.identification.algorithm: ""
+      schema.registry.url: http://localhost:8081
+      auto.register.schemas: true
+      use.latest.version: true
 
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.json.KafkaJsonSchemaSerializer
 
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: spring-security-consumer
       auto-offset-reset: earliest
+
 
   datasource:
     url: jdbc:postgresql://localhost:5432/mydatabase

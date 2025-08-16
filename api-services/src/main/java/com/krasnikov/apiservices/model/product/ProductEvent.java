@@ -11,7 +11,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ProductAvroEventExample {
+public class ProductEvent {
     @JsonProperty("product_id")
     private String productId;
 
