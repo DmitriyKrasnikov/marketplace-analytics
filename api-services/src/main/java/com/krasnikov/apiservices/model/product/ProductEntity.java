@@ -25,7 +25,7 @@ public class ProductEntity {
     @Column(name = "product_id")
     private String productId;
 
-    @Column(length = 1000)  // Явное указание длины для названия
+    @Column(length = 1000)
     private String name;
 
     @Column(columnDefinition = "text")

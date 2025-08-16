@@ -171,6 +171,54 @@ services:
       SCHEMA_REGISTRY_ACCESS_CONTROL_ALLOW_ORIGIN: "*"
       SCHEMA_REGISTRY_DEBUG: "true"
 
+  kafka-connect:
+    build:
+      context: ../kafka-connect
+    ports:
+      - "8083:8083"
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+    environment:
+      # Базовые настройки
+      CONNECT_BOOTSTRAP_SERVERS: "kafka-1:9092,kafka-2:9192,kafka-3:9292"  # PLAINTEXT порты
+      CONNECT_REST_PORT: 8083
+      CONNECT_GROUP_ID: 'kafka-connect'
+      CONNECT_REST_ADVERTISED_HOST_NAME: 'localhost'
+
+      # Внутренние топики
+      CONNECT_CONFIG_STORAGE_TOPIC: 'connect-config-storage'
+      CONNECT_OFFSET_STORAGE_TOPIC: 'connect-offset-storage'
+      CONNECT_STATUS_STORAGE_TOPIC: 'connect-status-storage'
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 3
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 3
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 3
+
+      # Конвертеры
+      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
+      CONNECT_VALUE_CONVERTER: "io.confluent.connect.json.JsonSchemaConverter"
+      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+
+      # Schema Registry
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
+
+      # Часовой пояс
+      TZ: Europe/Moscow
+      CONNECT_DB_TIMEZONE: Europe/Moscow
+
+      # Плагины
+      CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/jars
+
+      # Логирование
+      CONNECT_LOG4J_ROOT_LOGLEVEL: "INFO"
+
+    volumes:
+      - ../confluent-hub-components/:/etc/kafka-connect/jars
+    networks:
+      - confluent
+
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui
