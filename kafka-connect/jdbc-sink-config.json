@@ -1,0 +1,34 @@
+{
+  "name": "jdbc-sink-products",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "connection.url": "jdbc:postgresql://postgres:5432/mydatabase",
+    "connection.user": "myuser",
+    "connection.password": "mypassword",
+    "topics": "products",
+    "table.name.format": "products",
+    "insert.mode": "upsert",
+    "pk.mode": "record_value",
+    "pk.fields": "product_id",
+    "auto.create": false,
+    "auto.evolve": false,
+    "value.converter": "io.confluent.connect.json.JsonSchemaConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+
+    "transforms": "flatten,setCreatedAt,setUpdatedAt",
+    "transforms.flatten.type": "org.apache.kafka.connect.transforms.Flatten$Value",
+    "transforms.flatten.delimiter": "_",
+
+    "transforms.setCreatedAt.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+    "transforms.setCreatedAt.field": "created_at",
+    "transforms.setCreatedAt.format": "yyyy-MM-dd'T'HH:mm:ssXXX",
+    "transforms.setCreatedAt.target.type": "Timestamp",
+
+    "transforms.setUpdatedAt.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+    "transforms.setUpdatedAt.field": "updated_at",
+    "transforms.setUpdatedAt.format": "yyyy-MM-dd'T'HH:mm:ssXXX",
+    "transforms.setUpdatedAt.target.type": "Timestamp",
+
+    "db.timezone": "UTC"
+  }
+}

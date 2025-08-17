@@ -7,6 +7,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
+import java.time.ZoneOffset;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -23,7 +24,13 @@ public class ProductProducer {
         log.info("Sending product to Kafka [id: {}, name: {}, topic: {}]",
                 productId, product.getName(), topic);
 
-        // Здесь тип значения теперь ProductEvent вместо String
+        if (product.getCreatedAt() != null) {
+            product.setCreatedAt(product.getCreatedAt().withZoneSameInstant(ZoneOffset.UTC));
+        }
+        if (product.getUpdatedAt() != null) {
+            product.setUpdatedAt(product.getUpdatedAt().withZoneSameInstant(ZoneOffset.UTC));
+        }
+
         CompletableFuture<SendResult<String, ProductEvent>> future =
                 kafkaTemplate.send(topic, productId, product);
 

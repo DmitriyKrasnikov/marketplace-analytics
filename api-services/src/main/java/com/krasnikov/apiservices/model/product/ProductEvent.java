@@ -3,6 +3,7 @@ package com.krasnikov.apiservices.model.product;
 import lombok.*;
 import com.fasterxml.jackson.annotation.*;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -32,19 +33,18 @@ public class ProductEvent {
     private Map<String, String> specifications;
 
     @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
-    private Instant createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private ZonedDateTime createdAt;
 
     @JsonProperty("updated_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
-    private Instant updatedAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private ZonedDateTime updatedAt;
 
     private String index;
 
     @JsonProperty("store_id")
     private String storeId;
 
-    // Вложенные классы
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
